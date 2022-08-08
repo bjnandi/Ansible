@@ -1,0 +1,23 @@
+---
+
+- name: Install python-apt via command module
+  command: apt-get install python-apt -y
+
+- name: Install apache on instances
+  apt: name=apache2 update_cache=yes state=present
+
+- name: copy multiple file
+  copy: src=files/{{ item }}  dest=/var/www/html/
+
+  with_items:
+  - css
+  - images
+  - js
+  - scripts
+  - index.html
+  - favicon.ico
+
+- name: Keep the service started
+  service:
+    name: apache2
+    state: started
